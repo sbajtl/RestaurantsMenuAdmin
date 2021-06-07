@@ -762,6 +762,7 @@ namespace Mongo.Dal.Services
             {
                 if (data[i].CategoryId == model.Category.CategoryId)
                 {
+                    DeleteProducts(data, i);
                     data.RemoveAt(i);
                     break;
                 }
@@ -770,6 +771,23 @@ namespace Mongo.Dal.Services
                     DeleteFromCategory(data[i].RestaurantCategories, model);
                 }
             }
+        }
+
+        /// <summary>
+        /// Deletes the products from category.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="i">The i.</param>
+        private void DeleteProducts(List<RestaurantCategory> data, int i)
+        {
+            // Get the _id values of the found documents
+            var ids = data[i].Products.Select(d => d.ProductId);
+
+            // Create an $in filter for those ids
+            var idsFilter = Builders<Product>.Filter.In(d => d.Id, ids);
+
+            var productCollection = database.GetCollection<Product>();
+            productCollection.DeleteMany(idsFilter);
         }
 
         /// <summary>
