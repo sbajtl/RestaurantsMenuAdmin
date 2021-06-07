@@ -930,8 +930,8 @@ class CategoryComponent {
         data.forEach((item) => {
             var _a;
             let translation = (_a = item.Translations) === null || _a === void 0 ? void 0 : _a.find(x => x.LanguageId === language);
-            item.CategoryTitle = translation === null || translation === void 0 ? void 0 : translation.Title;
-            item.CategoryDescription = translation === null || translation === void 0 ? void 0 : translation.Description;
+            item.CategoryTitle = (translation === null || translation === void 0 ? void 0 : translation.Title) ? translation === null || translation === void 0 ? void 0 : translation.Title : '';
+            item.CategoryDescription = (translation === null || translation === void 0 ? void 0 : translation.Description) ? translation === null || translation === void 0 ? void 0 : translation.Description : '';
             this.categories.push(item);
         });
     }
@@ -945,7 +945,7 @@ class CategoryComponent {
                 return language;
             }
             return new src_app_shared_models_language_model__WEBPACK_IMPORTED_MODULE_1__["Language"];
-        });
+        }) || new src_app_shared_models_language_model__WEBPACK_IMPORTED_MODULE_1__["Language"];
     }
     onChange(e) {
         this.isEditMode = true;
@@ -1298,11 +1298,10 @@ function RestaurantComponent_ng_template_11_Template(rf, ctx) { if (rf & 1) {
 } }
 const _c1 = function () { return [10, 30, 50]; };
 class RestaurantComponent {
-    constructor(dialogService, restaurantService, messageService, confirmationService) {
+    constructor(dialogService, restaurantService, messageService) {
         this.dialogService = dialogService;
         this.restaurantService = restaurantService;
         this.messageService = messageService;
-        this.confirmationService = confirmationService;
         this.categories = [];
         this.activeIndex = 0;
         this.oldRestaurants = [];
@@ -1325,11 +1324,11 @@ class RestaurantComponent {
     initDropDownLanguage() {
         this.selectedLanguage = this.languages.find((language) => {
             if (language.Mnemonic == "hr") {
-                this.language = (language === null || language === void 0 ? void 0 : language.Id) || "";
+                this.language = language.Id || "";
                 return language;
             }
             return new _shared_models_language_model__WEBPACK_IMPORTED_MODULE_0__["Language"];
-        });
+        }) || new _shared_models_language_model__WEBPACK_IMPORTED_MODULE_0__["Language"];
     }
     languageChange(selectedLanguage) {
         this.restaurantService.getRestaurants(selectedLanguage.Id).then(data => {
@@ -1399,7 +1398,7 @@ class RestaurantComponent {
         });
     }
 }
-RestaurantComponent.ɵfac = function RestaurantComponent_Factory(t) { return new (t || RestaurantComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](primeng_dynamicdialog__WEBPACK_IMPORTED_MODULE_1__["DialogService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_shared_services_restaurant_service__WEBPACK_IMPORTED_MODULE_4__["RestaurantService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](primeng_api__WEBPACK_IMPORTED_MODULE_5__["MessageService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](primeng_api__WEBPACK_IMPORTED_MODULE_5__["ConfirmationService"])); };
+RestaurantComponent.ɵfac = function RestaurantComponent_Factory(t) { return new (t || RestaurantComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](primeng_dynamicdialog__WEBPACK_IMPORTED_MODULE_1__["DialogService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_shared_services_restaurant_service__WEBPACK_IMPORTED_MODULE_4__["RestaurantService"]), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](primeng_api__WEBPACK_IMPORTED_MODULE_5__["MessageService"])); };
 RestaurantComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineComponent"]({ type: RestaurantComponent, selectors: [["app-restaurant"]], viewQuery: function RestaurantComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵviewQuery"](_c0, 1);
     } if (rf & 2) {
@@ -1560,7 +1559,7 @@ class RestaurantCategoryComponent {
         }
         return {
             expanded: categoriesTreeNodes.length > 0 ? true : false,
-            label: category.CategoryTitle,
+            label: category.CategoryTitle ? category.CategoryTitle : '',
             data: category,
             children: categoriesTreeNodes
         };
@@ -1572,7 +1571,7 @@ class RestaurantCategoryComponent {
         }
         return {
             expanded: categoriesTreeNodes.length > 0 ? true : false,
-            label: category.CategoryTitle,
+            label: category.CategoryTitle ? category.CategoryTitle : '',
             data: category,
             children: categoriesTreeNodes,
         };
@@ -1648,7 +1647,7 @@ __webpack_require__.r(__webpack_exports__);
 class RestaurantService {
     constructor(http) {
         this.http = http;
-        this.baseUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].scheme + src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].host + src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].port + '/api'; //"https://localhost:44354/api";
+        this.baseUrl = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].scheme + src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].host + src_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].port + '/api';
     }
     getRestaurants(languageId) {
         return this.http.get(this.baseUrl + "/Restaurants/" + languageId)

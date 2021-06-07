@@ -39,8 +39,7 @@ export class RestaurantComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private restaurantService: RestaurantService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -61,11 +60,11 @@ export class RestaurantComponent implements OnInit {
   initDropDownLanguage() {
     this.selectedLanguage = this.languages.find((language) => {
       if (language.Mnemonic == "hr") {
-        this.language = language?.Id || "";
+        this.language = language.Id || "";
         return language;
       }
       return new Language;
-    });
+    }) || new Language;
   }
 
   languageChange(selectedLanguage?: Language) {
@@ -140,7 +139,7 @@ export class RestaurantComponent implements OnInit {
     this.categoryDialogReference.onClose.subscribe((selectedCategories: Category[]) => {
       if (selectedCategories?.length > 0) {
 
-        let saveData = {RestaurantId: restaurantId, Categories: selectedCategories}
+        let saveData = { RestaurantId: restaurantId, Categories: selectedCategories }
         this.restaurantService.saveCategories(saveData).subscribe(res => {
           console.log(res);
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Operation successfully executed.', life: 3000 });

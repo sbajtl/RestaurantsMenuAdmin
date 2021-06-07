@@ -68,11 +68,9 @@ namespace RestaurantsMenuAPI
         /// <param name="env">The env.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseCors(o => o.WithOrigins("http://localhost:443")
-            //.AllowAnyMethod()
-            //.AllowAnyHeader());
-
-            app.UseCors();
+            app.UseCors(o => o.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             if (env.IsDevelopment())
             {

@@ -52,7 +52,7 @@ export class RestaurantCategoryComponent implements OnInit {
 
     return {
       expanded: categoriesTreeNodes.length > 0 ? true : false,
-      label: category.CategoryTitle,
+      label: category.CategoryTitle ? category.CategoryTitle : '',
       data: category,
       children: categoriesTreeNodes
     };
@@ -65,7 +65,7 @@ export class RestaurantCategoryComponent implements OnInit {
     }
     return {
       expanded: categoriesTreeNodes.length > 0 ? true : false,
-      label: category.CategoryTitle,
+      label: category.CategoryTitle ? category.CategoryTitle : '',
       data: category,
       children: categoriesTreeNodes,
     }

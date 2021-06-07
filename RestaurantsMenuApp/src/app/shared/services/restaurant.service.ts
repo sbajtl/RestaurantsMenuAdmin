@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RestaurantService {
 
-  readonly baseUrl = environment.scheme + environment.host + environment.port + '/api'; //"https://localhost:44354/api";
+  readonly baseUrl = environment.scheme + environment.host + environment.port + '/api';
 
   constructor(private http: HttpClient) { }
 

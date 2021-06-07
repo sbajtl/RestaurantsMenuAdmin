@@ -54,8 +54,8 @@ export class CategoryComponent implements OnInit {
     this.categories = [];
     data.forEach((item) => {
       let translation = item.Translations?.find(x => x.LanguageId === language);
-      item.CategoryTitle = translation?.Title;
-      item.CategoryDescription = translation?.Description;
+      item.CategoryTitle = translation?.Title ? translation?.Title : '';
+      item.CategoryDescription = translation?.Description ? translation?.Description : '';
       this.categories.push(item);
     });
   }
@@ -71,7 +71,7 @@ export class CategoryComponent implements OnInit {
         return language;
       }
       return new Language;
-    });
+    }) || new Language;
   }
 
   onChange(e: any) {
