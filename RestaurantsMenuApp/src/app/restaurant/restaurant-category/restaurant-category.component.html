@@ -1,0 +1,75 @@
+<p-treeTable [value]="treeNodes" [columns]="cols">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 24em"></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowNode
+    let-rowData="rowData"
+    let-columns="columns"
+  >
+    <tr>
+      <td>
+        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+        <b>{{ rowData.CategoryTitle }}</b>
+        <button
+          *ngIf="rowData.Products.length == 0"
+          pButton
+          pRipple
+          label=""
+          icon="pi pi-plus"
+          class="p-button-success p-mr-2"
+          style="margin-left: 1em"
+          (click)="showCategoriesDialog($event, rowData)"
+        ></button>
+      </td>
+      <td>
+        <app-product
+          *ngIf="rowData.RestaurantCategories.length == 0"
+          [languageId]="languageId"
+          [restaurantId]="restaurantId"
+          [category]="rowData"
+          [products]="rowData.Products"
+        ></app-product>
+        <div
+          *ngIf="rowData.RestaurantCategories.length > 0"
+          style="float: right"
+        >
+          <button
+            *ngIf="rowData.OrderChanged"
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-primary p-mr-2"
+            (click)="updateCategory($event, rowData)"
+          ></button>
+          <button
+            *ngIf="rowData.OrderChanged"
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            type="button"
+            (click)="cancel($event, rowData)"
+          ></button>
+          <b> Order: </b>
+          <p-inputNumber
+            inputStyleClass="bg-red"
+            [showButtons]="true"
+            [min]="10"
+            [max]="1000000"
+            [step]="10"
+            mode="decimal"
+            [(ngModel)]="rowData.CategoryOrder"
+            (onInput)="onChangeOrder($event, rowData)"
+          ></p-inputNumber>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-treeTable>

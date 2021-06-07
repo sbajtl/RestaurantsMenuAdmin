@@ -1,0 +1,182 @@
+<p-dropdown
+  [options]="languages"
+  [(ngModel)]="selectedLanguage"
+  (onChange)="languageChange(selectedLanguage)"
+  optionLabel="Mnemonic"
+  dataKey="Id"
+  [filter]="true"
+  filterBy="Mnemonic"
+  [showClear]="false"
+  placeholder="Select a Language"
+  styleClass="dropdown-custom"
+>
+  <ng-template pTemplate="selectedItem">
+    <div *ngIf="selectedLanguage">
+      <div>{{ selectedLanguage.Mnemonic }}</div>
+    </div>
+  </ng-template>
+</p-dropdown>
+<br />
+<br />
+<p-toolbar styleClass="p-mb-4">
+  <ng-template pTemplate="left">
+    <button
+      type="button"
+      pButton
+      pRipple
+      label=""
+      icon="pi pi-plus"
+      class="p-button-success p-mr-2"
+      pAddRow
+      [table]="dt"
+      [newRow]="addNew()"
+    ></button>
+  </ng-template>
+  <ng-template pTemplate="right">
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-primary p-mr-2"
+      (click)="onRowEditSave()"
+    ></button>
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-secondary"
+      (click)="cancel()"
+      type="button"
+    ></button>
+  </ng-template>
+</p-toolbar>
+<p-table
+  #dt
+  styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped"
+  editMode="row"
+  dataKey="Id"
+  [value]="restaurants"
+  [paginator]="true"
+  [rows]="3"
+  [rowsPerPageOptions]="[10, 30, 50]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 4rem"></th>
+      <th pSortableColumn="Title">
+        Title <p-sortIcon field="Title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Description">
+        Description <p-sortIcon field="Description"></p-sortIcon>
+      </th>
+      <th>Style code</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-restaurant
+    let-expanded="expanded"
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]="restaurant">
+      <td>
+        <button
+          type="button"
+          pButton
+          pRipple
+          [pRowToggler]="restaurant"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="restaurant.Title"
+              (change)="onChange($event)"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ restaurant.Title }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="restaurant.Description"
+              (change)="onChange($event)"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ restaurant.Description }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="restaurant.StyleCode"
+              (change)="onChange($event)"
+              required
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ restaurant.StyleCode }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template
+    pTemplate="rowexpansion"
+    let-restaurant
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr>
+      <td colspan="7">
+        <p-toolbar>
+          <ng-template pTemplate="left">
+            <b>CATEGORIES</b>
+            <button
+              pButton
+              pRipple
+              label=""
+              icon="pi pi-plus"
+              class="p-button-success p-mr-2"
+              style="margin-left: 1em"
+              (click)="showCategoriesDialog(restaurant.Id)"
+            ></button>
+          </ng-template>
+        </p-toolbar>
+        <div *ngFor="let t of restaurant.Translations">
+          <app-restaurant-category
+            #ch
+            *ngIf="t.LanguageId == language"
+            [languageId]="language"
+            [restaurantId]="restaurant.Id"
+            [categories]="t!.RestaurantCategories!"
+          ></app-restaurant-category>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

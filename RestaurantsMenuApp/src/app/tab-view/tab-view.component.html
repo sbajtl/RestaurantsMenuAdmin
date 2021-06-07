@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card">
+    <p-tabView styleClass="tabview-custom">
+      <p-tabPanel>
+        <ng-template pTemplate="header">
+          <i class="pi pi-home"></i>
+          <span class="tabspan-custom">Restaurants</span>
+        </ng-template>
+        <app-restaurant></app-restaurant>
+      </p-tabPanel>
+
+      <p-tabPanel header="Categories">
+        <ng-template pTemplate="header">
+          <i class="pi pi-user"></i>
+          <span class="tabspan-custom">Categories</span>
+        </ng-template>
+         <app-category></app-category>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

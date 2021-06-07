@@ -1,0 +1,158 @@
+<p-dropdown
+  [options]="languages"
+  [(ngModel)]="selectedLanguage"
+  (onChange)="languageChange(selectedLanguage)"
+  optionLabel="Mnemonic"
+  dataKey="Id"
+  [filter]="true"
+  filterBy="Mnemonic"
+  [showClear]="false"
+  placeholder="Select a Language"
+  styleClass="dropdown-custom"
+>
+  <ng-template pTemplate="selectedItem">
+    <div *ngIf="selectedLanguage">
+      <div>{{ selectedLanguage.Mnemonic }}</div>
+    </div>
+  </ng-template>
+</p-dropdown>
+<br />
+<br />
+
+<p-toolbar styleClass="p-mb-4">
+  <ng-template pTemplate="left">
+    <button
+      type="button"
+      pButton
+      pRipple
+      label=""
+      icon="pi pi-plus"
+      class="p-button-success p-mr-2"
+      pAddRow
+      [table]="dt"
+      [newRow]="addNewCategory()"
+    ></button>
+  </ng-template>
+
+  <ng-template pTemplate="right">
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-primary p-mr-2"
+      (click)="onSave()"
+    ></button>
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-secondary"
+      (click)="cancel()"
+      type="button"
+    ></button>
+  </ng-template>
+</p-toolbar>
+<p-table
+  #dt
+  styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped"
+  editMode="row"
+  dataKey="Id"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 30, 50]"
+  [value]="categories"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="DefaultTitle">
+        Default Title<p-sortIcon field="DefaultTitle"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Title">
+        Title<p-sortIcon field="Title"></p-sortIcon>
+      </th>
+      <th>Description</th>
+      <th style="width: 5.2em"></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-category
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]="category">
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="category.DefaultTitle"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ category.DefaultTitle }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="category.CategoryTitle"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ category.CategoryTitle }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="category.CategoryDescription"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ category.CategoryDescription }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td>
+        <button
+          *ngIf="!isEditMode"
+          pButton
+          pRipple
+          label=""
+          icon="pi pi-times"
+          class="p-button-text p-button-danger p-button-rounded"
+          style="margin-left: 1em"
+          (click)="deleteCategory($event, category)"
+        ></button>
+      </td></tr
+  ></ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6">There are no products for this category yet.</td>
+    </tr>
+  </ng-template>
+</p-table>

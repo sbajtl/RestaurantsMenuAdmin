@@ -1,0 +1,189 @@
+<p-toolbar styleClass="p-mb-4">
+  <ng-template pTemplate="left">
+    <button
+      type="button"
+      pButton
+      pRipple
+      label=""
+      icon="pi pi-plus"
+      class="p-button-success p-mr-2"
+      pAddRow
+      [table]="dt"
+      [newRow]="addNewProduct()"
+    ></button>
+  </ng-template>
+
+  <ng-template pTemplate="right">
+    <button
+      *ngIf="!isEditMode"
+      pButton
+      pRipple
+      label=""
+      icon="pi pi-trash"
+      class="p-button-danger p-mr-2"
+      style="margin-left: 1em"
+      (click)="deleteCategory()"
+    ></button>
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-primary p-mr-2"
+      (click)="onSave()"
+    ></button>
+    <button
+      *ngIf="isEditMode"
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-secondary"
+      (click)="cancel()"
+      type="button"
+    ></button>
+    <b style="margin-left: 1em"> Order: </b>
+    <p-inputNumber
+      inputStyleClass="bg-red"
+      [showButtons]="true"
+      [min]="10"
+      [max]="1000000"
+      [step]="10"
+      (onInput)="onChangeOrder($event, category)"
+      [(ngModel)]="category.CategoryOrder"
+      mode="decimal"
+    ></p-inputNumber>
+  </ng-template>
+</p-toolbar>
+<p-table
+  #dt
+  editMode="row"
+  dataKey="ProductId"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 30, 50]"
+  [value]="products"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="DefaultTitle">
+        Default Title<p-sortIcon field="DefaultTitle"></p-sortIcon>
+      </th>
+      <th pSortableColumn="Title">
+        Title<p-sortIcon field="Title"></p-sortIcon>
+      </th>
+      <th>Description</th>
+      <th>Unit Of Measure</th>
+      <th>Price (kn)</th>
+      <th style="width: 5.2em"></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-product
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]="product">
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="product.DefaultTitle"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ product.DefaultTitle }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="product.Title"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ product.Title }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="product.Description"
+              (change)="onChange($event)"
+              style="width: 100%"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ product.Description }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="product.UnitOfMeasure"
+              (change)="onChange($event)"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ product.UnitOfMeasure }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-inputNumber
+              mode="decimal"
+              [minFractionDigits]="2"
+              [(ngModel)]="product.Price"
+              (onInput)="onChange($event)"
+            ></p-inputNumber>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ product.Price }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <button
+          *ngIf="!isEditMode"
+          pButton
+          pRipple
+          label=""
+          icon="pi pi-times"
+          class="p-button-text p-button-danger p-button-rounded"
+          style="margin-left: 1em"
+          (click)="deleteProduct($event, product)"
+        ></button>
+      </td></tr
+  ></ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6">There are no products for this category yet.</td>
+    </tr>
+  </ng-template>
+</p-table>

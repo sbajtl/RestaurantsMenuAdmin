@@ -1,0 +1,34 @@
+<div style="width: 100%">
+  <p-multiSelect
+    defaultLabel="Select categories"
+    appendTo="body"
+    [options]="categories"
+    [(ngModel)]="selectedCategories"
+    display="chip"
+    optionLabel="DefaultTitle"
+    optionValue="Id"
+    [style]="{ width: '100%' }"
+  ></p-multiSelect>
+
+  <button
+    style="margin-top: 1em; float: right"
+    pButton
+    pRipple
+    label="Cancel"
+    icon="pi pi-times"
+    class="p-button-secondary"
+    (click)="cancel()"
+    type="button"
+  ></button>
+  <button
+  *ngIf="selectedCategories.length > 0"
+    style="margin-top: 1em;margin-right: 0.5em; float: right"
+    pButton
+    pRipple
+    label="Save"
+    icon="pi pi-check"
+    class="p-button-primary"
+    (click)="save()"
+    type="button"
+  ></button>
+</div>
