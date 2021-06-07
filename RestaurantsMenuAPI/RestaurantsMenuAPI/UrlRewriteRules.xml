@@ -1,0 +1,22 @@
+﻿<rewrite>
+	<rules>
+		<rule name="SPA Routes" stopProcessing="true">
+			<match url=".*" />
+			<conditions logicalGrouping="MatchAll">
+				<!-- unless its a file -->
+				<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+				<!-- or a directory--> 
+				<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+				<!-- or is under the /api directory--> 
+				<add input="{REQUEST_URI}" pattern="^/(api)" negate="true" />
+				<!-- or is swagger--> 
+				<add input="{REQUEST_URI}" pattern="^/(swagger)" negate="true" />
+				<!-- or is hangfire--> 
+				<add input="{REQUEST_URI}" pattern="^/(hangfire)" negate="true" />
+				<!-- list other routes or route prefixes here if you need to handle them server side--> 
+			</conditions>
+			<!-- rewrite it to /index.html -->
+			<action type="Rewrite" url="/index.html" />
+		</rule>
+	</rules>
+</rewrite>

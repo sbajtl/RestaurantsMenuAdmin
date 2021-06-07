@@ -5,13 +5,14 @@ import { Language } from '../models/language.model';
 import { Restaurant } from '../models/restaurant.model';
 import { CategoryTranslation } from '../models/category-translation.model';
 import { CategoryGet } from '../models/extenders/category-get.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestaurantService {
 
-  readonly baseUrl = "https://localhost:44354/api";
+  readonly baseUrl = environment.scheme + environment.host + environment.port + '/api'; //"https://localhost:44354/api";
 
   constructor(private http: HttpClient) { }
 

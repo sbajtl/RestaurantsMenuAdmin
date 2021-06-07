@@ -70,7 +70,7 @@ export class ProductComponent implements OnInit {
     let updateData = { RestaurantId: this.restaurantId, Category: this.category }
 
     this.restaurantService.updateCategories(updateData).subscribe(res => {
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Operation successfully executed.', life: 3000 });
+      // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Operation successfully executed.', life: 3000 });
       this.restaurantComponent.loadData();
     }, err => console.log(err));
   }

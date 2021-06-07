@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Mongo.Dal\Mongo.Dal.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

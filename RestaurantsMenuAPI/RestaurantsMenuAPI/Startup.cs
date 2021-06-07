@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -48,8 +50,6 @@ namespace RestaurantsMenuAPI
                 new MongoClient(connectionString));
 
             services.AddTransient<IMongoDatabase, MongoDb>();
-
-            services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient(typeof(IRestaurantRepository), typeof(RestaurantRepository));
 
             services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
@@ -58,8 +58,6 @@ namespace RestaurantsMenuAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "RestaurantsMenuAPI", Version = "v1" });
             });
-
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,9 +68,11 @@ namespace RestaurantsMenuAPI
         /// <param name="env">The env.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(o => o.WithOrigins("http://localhost:4200")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            //app.UseCors(o => o.WithOrigins("http://localhost:443")
+            //.AllowAnyMethod()
+            //.AllowAnyHeader());
+
+            app.UseCors();
 
             if (env.IsDevelopment())
             {
@@ -84,6 +84,12 @@ namespace RestaurantsMenuAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            var fp = new PhysicalFileProvider(env.ContentRootPath);
+            var options = new RewriteOptions().AddIISUrlRewrite(fp, "UrlRewriteRules.xml");
+            app.UseRewriter(options);
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
