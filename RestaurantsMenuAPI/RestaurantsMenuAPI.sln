@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantsMenuAPI", "RestaurantsMenuAPI\RestaurantsMenuAPI.csproj", "{CD73C8AA-82C9-450D-82F0-5A2DC55146BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mongo.Dal", "Mongo.Dal\Mongo.Dal.csproj", "{43FE6001-A3A4-4B60-BA73-78172E320F3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD73C8AA-82C9-450D-82F0-5A2DC55146BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD73C8AA-82C9-450D-82F0-5A2DC55146BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD73C8AA-82C9-450D-82F0-5A2DC55146BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD73C8AA-82C9-450D-82F0-5A2DC55146BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43FE6001-A3A4-4B60-BA73-78172E320F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43FE6001-A3A4-4B60-BA73-78172E320F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43FE6001-A3A4-4B60-BA73-78172E320F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43FE6001-A3A4-4B60-BA73-78172E320F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD08AB55-DCC9-440B-A272-0AEF1095AB61}
+	EndGlobalSection
+EndGlobal
