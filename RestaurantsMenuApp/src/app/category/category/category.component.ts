@@ -120,7 +120,7 @@ export class CategoryComponent implements OnInit {
         this.restaurantService.deleteCategory(deleteData).subscribe(res => {
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Operation successfully executed.', life: 3000 });
           this.loadData();
-        }, err => console.log(err));
+        }, err => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Cannot delete category beacuse it is already in use!.', life: 5000 }));
       }
     });
   }

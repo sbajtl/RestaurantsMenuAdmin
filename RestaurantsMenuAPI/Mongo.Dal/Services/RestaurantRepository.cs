@@ -82,7 +82,7 @@ namespace Mongo.Dal.Services
         /// <returns>A Task.</returns>
         private async Task UpdateCategory(IMongoCollection<Category> categoryCollection, CategoryGet category, string languageId)
         {
-            Translation translation = category.Translations.FirstOrDefault(x=>x.LanguageId == languageId);
+            Translation translation = category.Translations.FirstOrDefault(x => x.LanguageId == languageId);
             translation.Title = category.CategoryTitle;
             translation.Description = category.CategoryDescription;
 
@@ -743,12 +743,59 @@ namespace Mongo.Dal.Services
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>A Task.</returns>
-        public async Task DeleteCategory(CategoryDelete model)
+        public async Task<bool> DeleteCategory(CategoryDelete model)
         {
+            if (await CheckIfCategoryInUse(model.Category.Id))
+            {
+                return await Task.FromResult(false);
+            }
+
             var categoryCollection = database.GetCollection<Category>();
             var filter = Builders<Category>.Filter.Eq(x => x.Id, model.Category.Id);
 
             await categoryCollection.DeleteOneAsync(filter);
+
+            return await Task.FromResult(true);
+        }
+
+        private async Task<bool> CheckIfCategoryInUse(string categoryId)
+        {
+            var restaurantsCollection = database.GetCollection<Restaurant>();
+            var allRestaurants = await restaurantsCollection.Find(Builders<Restaurant>.Filter.Empty).ToListAsync();
+
+            foreach (Restaurant restaurant in allRestaurants)
+            {
+                foreach (CategoryTranslation translation in restaurant.Translations)
+                {
+                    var data = translation.RestaurantCategories;
+
+                    bool isCategoryInUse = false;
+                    CategoryInUse(categoryId, data, ref isCategoryInUse);
+
+                    if (isCategoryInUse)
+                    {
+                        return await Task.FromResult(true);
+                    }
+                }
+            }
+
+            return await Task.FromResult(false);
+        }
+
+        private static void CategoryInUse(string categoryId, List<RestaurantCategory> data, ref bool isCategoryInUse)
+        {
+            for (var i = 0; i < data.Count; i++)
+            {
+                if (data[i].CategoryId == categoryId)
+                {
+                    isCategoryInUse = true;
+                    break;
+                }
+                else if (data[i].RestaurantCategories != null && data[i].RestaurantCategories!.Count > 0)
+                {
+                    CategoryInUse(categoryId, data[i].RestaurantCategories, ref isCategoryInUse);
+                }
+            }
         }
 
         /// <summary>

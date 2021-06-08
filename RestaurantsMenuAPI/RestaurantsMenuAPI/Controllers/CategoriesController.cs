@@ -121,20 +121,37 @@ namespace RestaurantsMenuAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the category async.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>A Task.</returns>
         [HttpPost("DeleteOne")]
         public async Task<ActionResult<List<CategoryDelete>>> DeleteCategoryAsync(CategoryDelete model)
         {
             try
             {
-                await restaurantRepository.DeleteCategory(model);
-                return Ok();
+                bool deleted =  await restaurantRepository.DeleteCategory(model);
+                if (deleted)
+                {
+                    return Ok(deleted);
+                }
+                else
+                {
+                    return BadRequest(deleted);
+                }
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest();
             }
         }
 
+        /// <summary>
+        /// Posts the async.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>A Task.</returns>
         [HttpPost]
         public async Task<ActionResult<List<CategorySave>>> PostAsync(CategorySave model)
         {

@@ -100,6 +100,6 @@ namespace Mongo.Dal.Services
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns>A Task.</returns>
-        Task DeleteCategory(CategoryDelete model);
+        Task<bool> DeleteCategory(CategoryDelete model);
     }
 }
